@@ -3,41 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZENIQ Registration</title>
-    <!-- Correctly structured Supabase script library -->
+    <title>ZENIQ Student Portal</title>
     <script src="https://jsdelivr.net"></script>
     <style>
-        body { font-family: system-ui, sans-serif; background-color: #121214; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .form-card { background-color: #202024; padding: 25px; border-radius: 8px; width: 100%; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); box-sizing: border-box; }
-        h2 { margin: 0 0 20px 0; color: #00e676; text-align: center; }
-        .input-group { margin-bottom: 15px; }
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #121214; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .card { background-color: #202024; padding: 25px; border-radius: 8px; width: 100%; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); box-sizing: border-box; }
+        h2 { margin: 0 0 20px 0; color: #00e676; text-align: center; font-size: 24px; }
+        .group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-size: 14px; color: #a8a8b3; }
-        input, select { width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #29292e; background-color: #121214; color: #fff; box-sizing: border-box; font-size: 16px; }
+        input, select { width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #29292e; background-color: #121214; color: #ffffff; box-sizing: border-box; font-size: 16px; }
+        input:focus, select:focus { border-color: #00e676; outline: none; }
         button { width: 100%; padding: 14px; border: none; border-radius: 4px; background-color: #00e676; color: #121214; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        .status-msg { margin-top: 15px; text-align: center; font-size: 14px; padding: 10px; border-radius: 4px; display: none; }
+        button:hover { background-color: #00b359; }
+        .status { margin-top: 15px; text-align: center; font-size: 14px; padding: 10px; border-radius: 4px; display: none; }
         .success { color: #00e676; background-color: rgba(0, 230, 118, 0.1); display: block; }
         .error { color: #f74040; background-color: rgba(247, 64, 64, 0.1); display: block; }
     </style>
 </head>
 <body>
 
-<div class="form-card">
+<div class="card">
     <h2>Student Registration</h2>
-    <div id="msg" class="status-msg"></div>
+    <div id="msg" class="status"></div>
 
-    <div class="input-group">
+    <div class="group">
         <label for="fullname">Full Name</label>
         <input type="text" id="fullname" placeholder="PHILIP LOMULEN LOTIIR">
     </div>
-    <div class="input-group">
+    <div class="group">
         <label for="university">University</label>
         <input type="text" id="university" placeholder="Maseno University">
     </div>
-    <div class="input-group">
+    <div class="group">
         <label for="course">Course of Study</label>
         <input type="text" id="course" placeholder="Education Science">
     </div>
-    <div class="input-group">
+    <div class="group">
         <label for="year">Year of Study</label>
         <select id="year">
             <option value="Year 1">Year 1</option>
@@ -46,11 +47,11 @@
             <option value="Year 4">Year 4</option>
         </select>
     </div>
-    <div class="input-group">
+    <div class="group">
         <label for="email">Student Email</label>
         <input type="email" id="email" placeholder="coachstarboy237@gmail.com">
     </div>
-    <div class="input-group">
+    <div class="group">
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="••••••••">
     </div>
@@ -59,7 +60,6 @@
 </div>
 
 <script>
-    // Your exact validated Supabase database keys
     const SUPABASE_URL = "https://supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFndHplbW1hdHJ3dmpqY3dzdHViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NjgyMjIsImV4cCI6MjA3NzM0NDIyMn0.h-M21vVvL4gS07R_sR7s0VvL4gS07R_sR7s";
 
@@ -74,27 +74,22 @@
         const year = document.getElementById('year').value;
         const msgDiv = document.getElementById('msg');
         
-        msgDiv.className = 'status-msg';
+        msgDiv.className = 'status';
         msgDiv.style.display = 'block';
-        msgDiv.innerText = 'Processing...';
+        msgDiv.innerText = 'Processing entry...';
 
         if (!email || !password || !fullname || !university || !course) {
-            msgDiv.className = 'status-msg error';
-            msgDiv.innerText = 'Please fill out all form inputs.';
+            msgDiv.className = 'status error';
+            msgDiv.innerText = 'Error: Fill out all inputs.';
             return;
         }
 
-        // Send to Auth table
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password
-        });
+        const { data, error } = await supabase.auth.signUp({ email, password });
 
         if (error) {
-            msgDiv.className = 'status-msg error';
+            msgDiv.className = 'status error';
             msgDiv.innerText = error.message;
         } else {
-            // Drop row straight into profiles grid table database sheet
             const { error: dbError } = await supabase.from('profiles').insert([
                 {
                     id: data.user.id,
@@ -106,10 +101,10 @@
             ]);
 
             if (dbError) {
-                msgDiv.className = 'status-msg error';
+                msgDiv.className = 'status error';
                 msgDiv.innerText = dbError.message;
             } else {
-                msgDiv.className = 'status-msg success';
+                msgDiv.className = 'status success';
                 msgDiv.innerText = 'Registration Successful!';
             }
         }
