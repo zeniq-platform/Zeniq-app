@@ -3,208 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZENIQ Student Portal</title>
-    <!-- Supabase JS Client Module fix-->
+    <title>ZENIQ Registration</title>
+    <!-- Correctly structured Supabase script library -->
     <script src="https://jsdelivr.net"></script>
-
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #121214; color: #e1e1e6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; box-sizing: border-box; }
-        .card { background-color: #202024; padding: 25px; border-radius: 8px; width: 100%; max-width: 420px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); box-sizing: border-box; }
-        h2 { margin-top: 0; color: #00e676; text-align: center; font-size: 24px; }
-        p.subtitle { text-align: center; color: #a8a8b3; margin-top: -10px; margin-bottom: 25px; font-size: 14px; }
-        .form-group { margin-bottom: 16px; }
-        label { display: block; margin-bottom: 6px; font-size: 14px; color: #a8a8b3; }
+    <style>
+        body { font-family: system-ui, sans-serif; background-color: #121214; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .form-card { background-color: #202024; padding: 25px; border-radius: 8px; width: 100%; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); box-sizing: border-box; }
+        h2 { margin: 0 0 20px 0; color: #00e676; text-align: center; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; color: #a8a8b3; }
         input, select { width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #29292e; background-color: #121214; color: #fff; box-sizing: border-box; font-size: 16px; }
-        input:focus, select:focus { border-color: #00e676; outline: none; }
         button { width: 100%; padding: 14px; border: none; border-radius: 4px; background-color: #00e676; color: #121214; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        button:hover { background-color: #00b359; }
-        .toggle-text { margin-top: 20px; text-align: center; font-size: 14px; color: #a8a8b3; }
-        .toggle-text span { color: #00e676; cursor: pointer; font-weight: bold; text-decoration: underline; padding: 5px; }
-        .message { margin-top: 15px; text-align: center; font-size: 14px; padding: 10px; border-radius: 4px; display: none; }
+        .status-msg { margin-top: 15px; text-align: center; font-size: 14px; padding: 10px; border-radius: 4px; display: none; }
         .success { color: #00e676; background-color: rgba(0, 230, 118, 0.1); display: block; }
         .error { color: #f74040; background-color: rgba(247, 64, 64, 0.1); display: block; }
-        .hidden { display: none !important; }
-        .profile-badge { background: #29292e; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; text-align: center; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2 id="auth-title">ZENIQ Student Portal</h2>
-    <p id="auth-subtitle" class="subtitle">Sign in to access your modules</p>
+<div class="form-card">
+    <h2>Student Registration</h2>
+    <div id="msg" class="status-msg"></div>
 
-    <!-- STATUS MESSAGES -->
-    <div id="msg" class="message"></div>
-
-    <!-- PROFILE FIELDS -->
-    <div id="profile-fields" class="hidden">
-        <div class="form-group">
-            <label for="fullname">Full Name</label>
-            <input type="text" id="fullname" placeholder="John Doe">
-        </div>
-        <div class="form-group">
-            <label for="university">University / Institution</label>
-            <input type="text" id="university" placeholder="State University">
-        </div>
-        <div class="form-group">
-            <label for="course">Course of Study</label>
-            <input type="text" id="course" placeholder="Computer Science">
-        </div>
-        <div class="form-group">
-            <label for="year">Year of Study</label>
-            <select id="year">
-                <option value="Year 1">Year 1</option>
-                <option value="Year 2">Year 2</option>
-                <option value="Year 3">Year 3</option>
-                <option value="Year 4">Year 4</option>
-                <option value="Postgraduate">Postgraduate</option>
-            </select>
-        </div>
+    <div class="input-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" placeholder="PHILIP LOMULEN LOTIIR">
+    </div>
+    <div class="input-group">
+        <label for="university">University</label>
+        <input type="text" id="university" placeholder="Maseno University">
+    </div>
+    <div class="input-group">
+        <label for="course">Course of Study</label>
+        <input type="text" id="course" placeholder="Education Science">
+    </div>
+    <div class="input-group">
+        <label for="year">Year of Study</label>
+        <select id="year">
+            <option value="Year 1">Year 1</option>
+            <option value="Year 2">Year 2</option>
+            <option value="Year 3">Year 3</option>
+            <option value="Year 4">Year 4</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label for="email">Student Email</label>
+        <input type="email" id="email" placeholder="coachstarboy237@gmail.com">
+    </div>
+    <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••">
     </div>
 
-    <!-- CORE AUTH FIELDS -->
-    <div id="auth-fields">
-        <div class="form-group">
-            <label for="email">Student Email</label>
-            <input type="email" id="email" placeholder="student@example.com">
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="••••••••">
-        </div>
-    </div>
-
-    <!-- DASHBOARD VIEW -->
-    <div id="dashboard-view" class="hidden">
-        <div class="profile-badge">Logged in as: <strong id="user-display-email"></strong></div>
-        <h3>Welcome to your Dashboard</h3>
-        <p style="color: #a8a8b3; font-size: 14px;">Your learning modules, profile synchronization, and opportunity tracks are being prepared dynamically.</p>
-        <button id="btn-logout" style="background-color: #f74040; color: #fff;">Sign Out</button>
-    </div>
-
-    <!-- ACTION BUTTONS -->
-    <button id="btn-primary">Sign In</button>
-
-    <div class="toggle-text">
-        <span id="btn-toggle-view">Don't have an account? Register here</span>
-    </div>
+    <button id="btn-submit">Submit Registration</button>
 </div>
 
 <script>
-    const SUPABASE_URL = "https://supabase.co.
+    // Your exact validated Supabase database keys
+    const SUPABASE_URL = "https://supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFndHplbW1hdHJ3dmpqY3dzdHViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NjgyMjIsImV4cCI6MjA3NzM0NDIyMn0.h-M21vVvL4gS07R_sR7s0VvL4gS07R_sR7s";
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let isLoginMode = true;
-    const authTitle = document.getElementById('auth-title');
-    const authSubtitle = document.getElementById('auth-subtitle');
-    const profileFields = document.getElementById('profile-fields');
-    const authFields = document.getElementById('auth-fields');
-    const dashboardView = document.getElementById('dashboard-view');
-    const btnPrimary = document.getElementById('btn-primary');
-    const btnToggleView = document.getElementById('btn-toggle-view');
-    const msgDiv = document.getElementById('msg');
-
-    window.addEventListener('load', async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) { showDashboard(session.user); }
-    });
-
-    // Fixed dynamic view toggle
-    btnToggleView.addEventListener('click', () => {
-        isLoginMode = !isLoginMode;
-        msgDiv.style.display = 'none';
-        
-        if (isLoginMode) {
-            authTitle.innerText = "ZENIQ Student Portal";
-            authSubtitle.innerText = "Sign in to access your modules";
-            btnPrimary.innerText = "Sign In";
-            profileFields.classList.add('hidden');
-            btnToggleView.innerText = "Don't have an account? Register here";
-        } else {
-            authTitle.innerText = "Create Student Profile";
-            authSubtitle.innerText = "Join the ZENIQ platform";
-            btnPrimary.innerText = "Register Account";
-            profileFields.classList.remove('hidden');
-            btnToggleView.innerText = "Already have an account? Sign in here";
-        }
-    });
-
-    btnPrimary.addEventListener('click', async () => {
+    document.getElementById('btn-submit').addEventListener('click', async () => {
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
+        const fullname = document.getElementById('fullname').value.trim();
+        const university = document.getElementById('university').value.trim();
+        const course = document.getElementById('course').value.trim();
+        const year = document.getElementById('year').value;
+        const msgDiv = document.getElementById('msg');
         
-        msgDiv.className = 'message';
+        msgDiv.className = 'status-msg';
         msgDiv.style.display = 'block';
+        msgDiv.innerText = 'Processing...';
 
-        if (!email || !password) {
-            msgDiv.className = 'message error';
-            msgDiv.innerText = 'Please complete all required fields.';
+        if (!email || !password || !fullname || !university || !course) {
+            msgDiv.className = 'status-msg error';
+            msgDiv.innerText = 'Please fill out all form inputs.';
             return;
         }
 
-        if (isLoginMode) {
-            msgDiv.innerText = 'Signing in...';
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) {
-                msgDiv.className = 'message error';
-                msgDiv.innerText = error.message;
-            } else {
-                showDashboard(data.user);
-            }
+        // Send to Auth table
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password
+        });
+
+        if (error) {
+            msgDiv.className = 'status-msg error';
+            msgDiv.innerText = error.message;
         } else {
-            msgDiv.innerText = 'Creating account...';
-            const fullname = document.getElementById('fullname').value.trim();
-            const university = document.getElementById('university').value.trim();
-            const course = document.getElementById('course').value.trim();
-            const year = document.getElementById('year').value;
-
-            if (!fullname || !university || !course) {
-                msgDiv.className = 'message error';
-                msgDiv.innerText = 'Please fill out your name, university, and course details.';
-                return;
-            }
-
-            const { data, error } = await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: {
-                        full_name: fullname,
-                        university: university,
-                        course_of_study: course,
-                        academic_year: year
-                    }
+            // Drop row straight into profiles grid table database sheet
+            const { error: dbError } = await supabase.from('profiles').insert([
+                {
+                    id: data.user.id,
+                    full_name: fullname,
+                    university: university,
+                    course: course,
+                    academic_year: year
                 }
-            });
+            ]);
 
-            if (error) {
-                msgDiv.className = 'message error';
-                msgDiv.innerText = error.message;
+            if (dbError) {
+                msgDiv.className = 'status-msg error';
+                msgDiv.innerText = dbError.message;
             } else {
-                msgDiv.className = 'message success';
-                msgDiv.innerText = 'Registration complete! Check your email for a validation link.';
+                msgDiv.className = 'status-msg success';
+                msgDiv.innerText = 'Registration Successful!';
             }
         }
     });
-
-    document.getElementById('btn-logout').addEventListener('click', async () => {
-        await supabase.auth.signOut();
-        location.reload();
-    });
-
-    function showDashboard(user) {
-        msgDiv.style.display = 'none';
-        authTitle.innerText = "ZENIQ Hub";
-        authSubtitle.innerText = "Learning & Opportunities Platform";
-        authFields.classList.add('hidden');
-        profileFields.classList.add('hidden');
-        btnPrimary.classList.add('hidden');
-        btnToggleView.classList.add('hidden');
-        
-        document.getElementById('user-display-email').innerText = user.email;
-        dashboardView.classList.remove('hidden');
-    }
 </script>
 
 </body>
